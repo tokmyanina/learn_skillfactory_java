@@ -23,7 +23,7 @@ public class Main {
         s = s.replaceAll("=", "+=+");
         int[] result = new int[3];
         boolean isLeft = true;
-        for (String cur: s.split("[\\+]")) {
+        for (String cur: s.split("\\+")) {
             if (cur.equals("=")) {
                 isLeft = false;
                 continue;
@@ -45,7 +45,7 @@ public class Main {
 
     static int getValue(String s) throws NumberFormatException {
         if (s.indexOf("x") == 0) return 1;
-        if (s.indexOf("x") == -1) return Integer.parseInt(s);
+        if (!s.contains("x")) return Integer.parseInt(s);
         String number = s.substring(0, s.indexOf("x"));
         return Integer.parseInt(number);
     }
