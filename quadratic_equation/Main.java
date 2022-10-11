@@ -1,5 +1,3 @@
-package com.company;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,37 +17,39 @@ public class Main {
     static int[] parse(String s) {
         System.out.println("Уравнение: " + s);
         s = s.replaceAll(" ", "");
-        s = s.replace("=0", "");
+        s = s.replaceAll("-", "+-");
+        s = s.replaceAll("\\+x", "+1x");
+        s = s.replaceAll("-x", "-1x");
+        s = s.replaceAll("=", "+=+");
         int[] result = new int[3];
-        int k = s.indexOf("x^2");
-        if (k == 0) {
-            result[0] = 1;
-            s = s.substring(3);
+        boolean isLeft = true;
+        for (String cur: s.split("[\\+]")) {
+            if (cur.equals("=")) {
+                isLeft = false;
+                continue;
+            }
+            if (cur.equals("")) continue;
+            int index = getIndex(cur);
+            int value = getValue(cur);
+            if (isLeft) result[index] += value;
+            else result[index] -= value;
         }
-        else if (k != -1) {
-            String a = s.substring(0, k);
-            s = s.substring(k + 3);
-            if (a.equals("-")) result[0] = -1;
-            else result[0] = Integer.parseInt(a);
-        }
-        k = s.indexOf("x");
-        if (k == 0) {
-            result[1] = 1;
-            if (s.length() > 2) s = s.substring(2);
-            else s = "";
-        }
-        else if (k != -1){
-            String a = s.substring(0, k);
-            if (s.length() > k + 1) s = s.substring(k + 1);
-            else s = "";
-            if (a.equals("-")) result[1] = -1;
-            else if (a.equals("+")) result[1] = 1;
-            else result[1] = Integer.parseInt(a);
-        }
-        s = s.replaceAll(" ", "");
-        if (!s.equals("")) result[2] = Integer.parseInt(s);
         return result;
     }
+
+    static int getIndex(String s) {
+        if (s.contains("x^2")) return 0;
+        if (s.contains("x")) return 1;
+        return 2;
+    }
+
+    static int getValue(String s) throws NumberFormatException {
+        if (s.indexOf("x") == 0) return 1;
+        if (s.indexOf("x") == -1) return Integer.parseInt(s);
+        String number = s.substring(0, s.indexOf("x"));
+        return Integer.parseInt(number);
+    }
+
     static void solve(int[] data) {
         if (data[0] != 0) {
             int d = data[1] * data[1] - 4 * data[0] * data[2];

@@ -1,5 +1,3 @@
-package com.company;
-
 public class test {
     public static void main(String[] args) {
         Main.solve(Main.parse("x^2 - x - 2 = 0"));
@@ -17,5 +15,8 @@ public class test {
         Main.solve(Main.parse("2 = 0"));
         Main.solve(Main.parse("0 = 0"));
         Main.solve(Main.parse("x^2-x=0"));
+        Main.solve(Main.parse("x^2-x+5=x^2-x+5"));
+        Main.solve(Main.parse("0=x^2-x-2"));
+        Main.solve(Main.parse("x^2-x+5-x^2+x-2-3=x^2-x-2"));
     }
 }
